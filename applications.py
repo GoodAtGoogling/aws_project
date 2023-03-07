@@ -10,7 +10,7 @@ def create_table():
     query = """CREATE TABLE IF NOT EXISTS employees(
                id INTEGER PRIMARY KEY AUTOINCREMENT
                firstName VARCHAR(15)
-               lastNames  VARCHAR(15)
+               lastName  VARCHAR(15)
                emailId VARCHAR(25)
     );
                 
@@ -55,6 +55,7 @@ def add_employee():
 def delete_employee():
     return None
 
-def update_employee() : 
+def update_employee() :
+    print("test") 
     return None
     
