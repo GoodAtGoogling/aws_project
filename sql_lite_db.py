@@ -1,61 +1,72 @@
 import sqlite3
-
-def get_database():
+ 
+def get_database_connextion():
     con = sqlite3.connect("employee.db")
     return con
-
-def create_table():
-    con = get_database()
+ 
+def create_employee_table():
+    con = get_database_connextion()
     cursor = con.cursor()
-    query = """CREATE TABLE IF NOT EXISTS employees(
-               id INTEGER PRIMARY KEY AUTOINCREMENT
-               firstName VARCHAR(15)
-               lastName  VARCHAR(15)
-               emailId VARCHAR(25)
+    query = """ CREATE TABLE IF NOT EXISTS employees(
+                id INTEGER PRIMARY KEY AUTOINCREMENT
+                firstName VARCHAR(15)
+                lastName VARCHAR(15)
+                emailId VARCHAR(25)
     );
-                
-             """
+            """
     cursor.execute(query)
     con.commit()
-    con.close()
     cursor.close()
-  
-    
-
+    con.close()
+ 
 def list_employees():
-    con = get_database()
+    con = get_database_connextion()
     cursor = con.cursor()
-    query = """SELECT id, firstName, lastName,emailId
+    query = """ SELECT id, firstName, lastName, emailId
                 FROM employees
                 ORDER BY firstName, lastName ASC;
-             """
+            """
     cursor.execute(query)
     result = cursor.fetchall()
-    con.close()
     cursor.close()
+    con.close()
     return result
-
-def list_employee(employee_id):
-    con = get_database()
+ 
+def load_employee(employee_id):
+    con = get_database_connextion()
     cursor = con.cursor()
-    query = """SELECT*
+    query = """ SELECT id, firstName, lastName, emailId
                 FROM employees
-                WHERE id=?;
-             """
+                WHERE id = ?;
+            """
     cursor.execute(query,(employee_id))
     result = cursor.fetchone()
-    con.close()
     cursor.close()
+    con.close()
     return result
-
-
-def add_employee():
+ 
+def add_employee(firstName, lastName, emailId):
+    con = get_database_connextion()
+    cursor = con.cursor()
+    query = """ INSERT INTO employees(firstName, lastName, emailId)
+                VALUES(?, ?, ?);
+            """
+    cursor.execute(query,(firstName, lastName, emailId))
+    con.commit()
+    cursor.close()
+    con.close()
+ 
+def delete_employee(employee_id):
+    con = get_database_connextion()
+    cursor = con.cursor()
+    query = """ DELETE
+                FROM employees
+                WHERE id = ?;
+            """
+    cursor.execute(query,(employee_id))
+    con.commit()
+    cursor.close()
+    con.close()
+ 
+def update_employee(employee_id):
     return None
-
-def delete_employee():
-    return None
-
-def update_employee() :
-    print("test") 
-    return None
-    
