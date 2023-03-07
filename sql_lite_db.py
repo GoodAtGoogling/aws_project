@@ -68,5 +68,15 @@ def delete_employee(employee_id):
     cursor.close()
     con.close()
  
-def update_employee(employee_id):
-    return None
+def update_employee(employee_id, firstName, lastName,emailId):
+    con = get_database_connextion()
+    cursor = con.cursor()
+    query = """ UPDATE employees
+                SET firstName = ? ,lastName = ? , emailId = ?
+                WHERE id = ?;
+            """
+    cursor.execute(query,(firstName, lastName, emailId,employee_id))
+    con.commit()
+    cursor.close()
+    con.close()
+    
