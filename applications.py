@@ -1,61 +1,22 @@
-import sqlite3
 
-def get_database():
-    con = sqlite3.connect("employee.db")
-    return con
-
-def create_table():
-    con = get_database()
-    cursor = con.cursor()
-    query = """CREATE TABLE IF NOT EXISTS employees(
-               id INTEGER PRIMARY KEY AUTOINCREMENT
-               firstName VARCHAR(15)
-               lastName  VARCHAR(15)
-               emailId VARCHAR(25)
-    );
-                
-             """
-    cursor.execute(query)
-    con.commit()
-    con.close()
-    cursor.close()
-  
-    
-
-def list_employees():
-    con = get_database()
-    cursor = con.cursor()
-    query = """SELECT id, firstName, lastName,emailId
-                FROM employees
-                ORDER BY firstName, lastName ASC;
-             """
-    cursor.execute(query)
-    result = cursor.fetchall()
-    con.close()
-    cursor.close()
-    return result
-
-def list_employee(employee_id):
-    con = get_database()
-    cursor = con.cursor()
-    query = """SELECT*
-                FROM employees
-                WHERE id=?;
-             """
-    cursor.execute(query,(employee_id))
-    result = cursor.fetchone()
-    con.close()
-    cursor.close()
-    return result
+import requests
+import sql_lite_db
+from flask import Flask
+from flask_cors import CORS
 
 
-def add_employee():
-    return None
 
-def delete_employee():
-    return None
+application = Flask(__name__)
+CORS(application)
 
-def update_employee() :
-    print("test") 
-    return None
-    
+@application.route("/employees")
+def index():
+    employees = sql_lite_db.list_employees()
+    return employees
+
+@application.route("/employees/add")
+def add(): 
+    sql_lite_db.add_employee(firstName,lastName,emailId)
+if __name__=="__main__":
+    sql_lite_db.create_employee_table()
+    application.run()
