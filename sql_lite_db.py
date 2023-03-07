@@ -8,9 +8,9 @@ def create_employee_table():
     con = get_database_connexion()
     cursor = con.cursor()
     query = """ CREATE TABLE IF NOT EXISTS employees(
-                id INTEGER PRIMARY KEY AUTOINCREMENT
-                firstName VARCHAR(15)
-                lastName VARCHAR(15)
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                firstName VARCHAR(15),
+                lastName VARCHAR(15),
                 emailId VARCHAR(25)
     );
             """
